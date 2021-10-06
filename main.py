@@ -73,7 +73,7 @@ def nextMove(currentNode):
         #print("before swap: ", newBoardState)
         moveToEmpty(newBoardState, emptySpace, neighbor)
         #print("after swap: ", newBoardState)
-        newNode = node.Node(newBoardState, (currentNode.depth+1), currentNode, getManhattanCost(newBoardState))
+        newNode = node.Node(newBoardState, (currentNode.depth+1), currentNode, (getManhattanCost(newBoardState)))
         if newNode.state == goalState:
             print("solved")
             newNode.printThis()
@@ -109,6 +109,18 @@ def isExplored(boardState):
 
     return False
 
+def solvablePuzzle(startingPuzzle):
+    inversions = 0
+    for i in range(0,9):
+        for j in range(i+1, 9):
+            if(startingPuzzle[j] != 0 and startingPuzzle[i]!= 0 and startingPuzzle[i] > startingPuzzle[j]):
+                inversions += 1
+    
+    if(inversions % 2 == 0):
+        return True
+    else:
+        return False
+
 
 
 #### "Main"
@@ -131,21 +143,20 @@ neighbors = {
     7 : [6,8,4],
     8 : [7,5],
 }
-#randomizePuzzle()
+randomizePuzzle()
+while solvablePuzzle(puzzle) == False:
+    print("puzzle: ", puzzle, " not solvable. generating new puzzle")
+    randomizePuzzle()
 #puzzle = [1,5,0,3,2,8,4,6,7]
-puzzle = [1,2,3,4,5,6,7,0,8]
+#puzzle = [1,2,3,4,5,6,7,0,8]
 print(getManhattanCost(puzzle))
 startNode = node.Node(puzzle, 0, None, getManhattanCost(puzzle))
-#nextMove(startNode)
 startNode.printThis()
-print(startNode.cost + startNode.depth)
 print("---starter^-----")
 unexploredNodes.append(startNode)
 moveCount = 0
-#print(getManhattanCost(puzzle))
 
-
-while(moveCount < 2000):
+while(solved == False):
     #print(len(exploredNodes))
     nextNode = findNextMove()
     #print(nextNode.state == goalState)
