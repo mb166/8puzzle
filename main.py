@@ -63,6 +63,7 @@ def getManhattanCost(boardState):
 def nextMove(currentNode):
     if currentNode.state == goalState:
         solved = True
+        printSolution(currentNode)
         return
 
     emptySpace = findEmpty(currentNode.state)
@@ -75,15 +76,29 @@ def nextMove(currentNode):
         #print("after swap: ", newBoardState)
         newNode = node.Node(newBoardState, (currentNode.depth+1), currentNode, (getManhattanCost(newBoardState)))
         if newNode.state == goalState:
-            print("solved")
-            newNode.printThis()
+            print("Solution: ")
+
+            #newNode.printThis()
             solved = True
+
+            printSolution(newNode)
             return
         #print(isExplored(newNode.state) == False)
-        if (isExplored(newNode.state) == False):
+        if ((isExplored(newNode.state)) == False):
             #newNode.printThis()
             unexploredNodes.append(newNode)
     #print("completed Move")
+
+def printSolution(solvedNode):
+    currentNode = solvedNode
+    while(currentNode.parent != None):
+        print("Move: ", currentNode.depth)
+        currentNode.printThis()
+        currentNode = currentNode.parent
+    else:
+        print("Move: ", currentNode.depth)
+        currentNode.printThis()
+    quit()
 
 def findNextMove():
     nextNode = None
@@ -149,17 +164,11 @@ while solvablePuzzle(puzzle) == False:
     randomizePuzzle()
 #puzzle = [1,5,0,3,2,8,4,6,7]
 #puzzle = [1,2,3,4,5,6,7,0,8]
-print(getManhattanCost(puzzle))
-startNode = node.Node(puzzle, 0, None, getManhattanCost(puzzle))
+startNode = node.Node(puzzle, 0, None, (getManhattanCost(puzzle)))
+print("Starting puzzle cost: ", startNode.cost, "Starting puzzle: ")
 startNode.printThis()
-print("---starter^-----")
 unexploredNodes.append(startNode)
-moveCount = 0
 
 while(solved == False):
-    #print(len(exploredNodes))
     nextNode = findNextMove()
-    #print(nextNode.state == goalState)
     nextMove(nextNode)
-    moveCount += 1
-#print(moveCount)
