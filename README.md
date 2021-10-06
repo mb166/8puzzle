@@ -1,1 +1,2 @@
 # 8puzzle
+This program solves the 8 puzzle game by using the A* algorithm. This algorithm utilizes the manhattan distance and the current depth of the node to decide what path to choose when traversing the tree.
