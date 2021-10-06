@@ -5,6 +5,7 @@ class Node:
         self.parent = parent
         self.cost = cost
 
+##prints the state of the game board
     def printThis(self):
         for i in range(9):
             print(str(self.state[i]), end = ' ')

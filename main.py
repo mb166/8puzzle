@@ -71,23 +71,16 @@ def nextMove(currentNode):
 
     for neighbor in emptyNeighbors:
         newBoardState = copy.deepcopy(currentNode.state)
-        #print("before swap: ", newBoardState)
         moveToEmpty(newBoardState, emptySpace, neighbor)
-        #print("after swap: ", newBoardState)
         newNode = node.Node(newBoardState, (currentNode.depth+1), currentNode, (getManhattanCost(newBoardState)))
         if newNode.state == goalState:
             print("Solution: ")
-
-            #newNode.printThis()
             solved = True
 
             printSolution(newNode)
             return
-        #print(isExplored(newNode.state) == False)
         if ((isExplored(newNode.state)) == False):
-            #newNode.printThis()
             unexploredNodes.append(newNode)
-    #print("completed Move")
 
 def printSolution(solvedNode):
     currentNode = solvedNode
@@ -114,7 +107,6 @@ def findNextMove():
         nodeIndexCounter += 1
     unexploredNodes.pop(nextNodeIndex)
     exploredNodes.append(nextNode)
-    #print("found enxt move")
     return nextNode
 
 def isExplored(boardState):
